@@ -507,7 +507,7 @@ const initialFormData: SEOWebsite = {
   socialLinks: {linkedin: "", facebook: "", twitter: ""},
   metadata: {},
   status: "DRAFT",
-  createdBy: "admin",
+  createdBy: "admin" ,
   updatedBy: "admin"
 };
 
