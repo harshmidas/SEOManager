@@ -5,7 +5,11 @@ export interface ContactInfo {
   prContactName: string;
   prContactEmail: string;
   prContactPhone: string;
-  additionalContacts: Record<string, string>;
+  additionalContacts: {
+    mediaRelations: string;
+    investorRelations: string;
+    customerSupport: string;
+  };
 }
 
 export interface DistributionConfig {

@@ -8,11 +8,11 @@ import CategoryChart from "@/components/CategoryChart";
 import BlogPostCard from "@/components/BlogPostCard";
 import BlogPostForm from "@/components/BlogPostForm";
 
-const API_URL = "http://192.168.1.42:9291/api/v1/seo-blogs";
+const API_URL = "http://157.20.214.84:9292/api/v1/seo-blogs";
 const HEADERS = {
-  "X-Tenant": "68cc764fbfc57730593b4a32",
+  "X-Tenant": "68b20dd0fb42964f2328b424",
   "X-User-ID": "system",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 export default function SeoBlogsPage() {
@@ -26,7 +26,13 @@ export default function SeoBlogsPage() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const categories = ["Healthcare Technology", "AI", "Staffing", "Innovation", "Industry Insights"];
+  const categories = [
+    "Healthcare Technology",
+    "AI",
+    "Staffing",
+    "Innovation",
+    "Industry Insights",
+  ];
   const statuses = ["PUBLISHED", "DRAFT", "SCHEDULED", "ARCHIVED"];
 
   const loadBlogPosts = async () => {
@@ -50,20 +56,23 @@ export default function SeoBlogsPage() {
     let filtered = blogPosts;
 
     if (searchTerm) {
-      filtered = filtered.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        post.author.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.tags.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          ) ||
+          post.author.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (statusFilter !== "all") {
-      filtered = filtered.filter(post => post.status === statusFilter);
+      filtered = filtered.filter((post) => post.status === statusFilter);
     }
 
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(post => post.category === categoryFilter);
+      filtered = filtered.filter((post) => post.category === categoryFilter);
     }
 
     setFilteredPosts(filtered);
@@ -87,9 +96,12 @@ export default function SeoBlogsPage() {
 
   const totalViews = blogPosts.reduce((sum, post) => sum + post.viewCount, 0);
   const totalShares = blogPosts.reduce((sum, post) => sum + post.shareCount, 0);
-  const totalComments = blogPosts.reduce((sum, post) => sum + post.commentCount, 0);
-  const publishedCount = blogPosts.filter(post => post.published).length;
-  const featuredCount = blogPosts.filter(post => post.featured).length;
+  const totalComments = blogPosts.reduce(
+    (sum, post) => sum + post.commentCount,
+    0
+  );
+  const publishedCount = blogPosts.filter((post) => post.published).length;
+  const featuredCount = blogPosts.filter((post) => post.featured).length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -99,7 +111,9 @@ export default function SeoBlogsPage() {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Blog Posts</h1>
-              <p className="text-gray-600 mt-2">Manage your blog content and SEO optimization</p>
+              <p className="text-gray-600 mt-2">
+                Manage your blog content and SEO optimization
+              </p>
             </div>
             <button
               onClick={handleCreate}
@@ -151,8 +165,10 @@ export default function SeoBlogsPage() {
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="all">All Status</option>
-                  {statuses.map(status => (
-                    <option key={status} value={status}>{status}</option>
+                  {statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
                   ))}
                 </select>
                 <select
@@ -161,12 +177,14 @@ export default function SeoBlogsPage() {
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="all">All Categories</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
                 </select>
               </div>
-              
+
               {/* View Mode Toggle */}
               <div className="flex justify-between items-center">
                 <div className="text-sm text-gray-600">
@@ -176,8 +194,8 @@ export default function SeoBlogsPage() {
                   <button
                     onClick={() => setViewMode("grid")}
                     className={`p-2 rounded-lg ${
-                      viewMode === "grid" 
-                        ? "bg-blue-100 text-blue-600" 
+                      viewMode === "grid"
+                        ? "bg-blue-100 text-blue-600"
                         : "bg-gray-100 text-gray-600"
                     }`}
                   >
@@ -186,8 +204,8 @@ export default function SeoBlogsPage() {
                   <button
                     onClick={() => setViewMode("list")}
                     className={`p-2 rounded-lg ${
-                      viewMode === "list" 
-                        ? "bg-blue-100 text-blue-600" 
+                      viewMode === "list"
+                        ? "bg-blue-100 text-blue-600"
                         : "bg-gray-100 text-gray-600"
                     }`}
                   >
@@ -210,10 +228,12 @@ export default function SeoBlogsPage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📝</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No blog posts found</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No blog posts found
+              </h3>
               <p className="text-gray-600 mb-6">
-                {blogPosts.length === 0 
-                  ? "Get started by creating your first blog post" 
+                {blogPosts.length === 0
+                  ? "Get started by creating your first blog post"
                   : "No posts match your current filters"}
               </p>
               <button

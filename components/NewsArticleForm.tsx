@@ -4,10 +4,10 @@ import { useState } from "react";
 import { NewsArticle, SEOMeta, Update } from "@/types/news";
 import { apiFetch } from "@/utils/api";
 
-const API_URL = "http://192.168.1.42:9291/api/v1/seo-news";
+const API_URL = "http://157.20.214.84:9292/api/v1/seo-news";
 const HEADERS = {
-  "accept": "*/*",
-  "X-Tenant": "68cc764fbfc57730593b4a32",
+  accept: "*/*",
+  "X-Tenant": "68b20dd0fb42964f2328b424",
   "X-User-ID": "658dfb086764754f1fa564d0",
   "Content-Type": "application/json",
 };
@@ -32,7 +32,7 @@ const initialSEOMeta: SEOMeta = {
   articleSection: "",
   articleTags: [],
   noIndex: false,
-  structuredData: {}
+  structuredData: {},
 };
 
 const initialFormData: NewsArticle = {
@@ -65,18 +65,33 @@ const initialFormData: NewsArticle = {
   updatedAt: new Date().toISOString(),
   createdBy: "admin",
   updatedBy: "admin",
-  metadata: {}
+  metadata: {},
 };
 
-export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArticleFormProps) {
-  const [formData, setFormData] = useState<NewsArticle>(article || initialFormData);
+export default function NewsArticleForm({
+  article,
+  onClose,
+  onSuccess,
+}: NewsArticleFormProps) {
+  const [formData, setFormData] = useState<NewsArticle>(
+    article || initialFormData
+  );
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("basic");
   const [content, setContent] = useState(formData.content);
-  const [mediaGallery, setMediaGallery] = useState<string[]>(formData.mediaGallery);
+  const [mediaGallery, setMediaGallery] = useState<string[]>(
+    formData.mediaGallery
+  );
   const [newMediaUrl, setNewMediaUrl] = useState("");
 
-  const categories = ["Technology", "Politics", "Business", "Health", "Entertainment", "Sports"];
+  const categories = [
+    "Technology",
+    "Politics",
+    "Business",
+    "Health",
+    "Entertainment",
+    "Sports",
+  ];
   const priorities = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,7 +102,7 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       const submitData = {
         ...formData,
         content,
-        mediaGallery
+        mediaGallery,
       };
 
       const response = await fetch(API_URL, {
@@ -105,22 +120,24 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       onSuccess();
     } catch (error) {
       console.error("Error creating news article:", error);
-      alert("Failed to create news article. Please check the console for details.");
+      alert(
+        "Failed to create news article. Please check the console for details."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const updateField = (path: string, value: any) => {
-    setFormData(prev => {
-      const keys = path.split('.');
+    setFormData((prev) => {
+      const keys = path.split(".");
       const updated = { ...prev };
       let current: any = updated;
-      
+
       for (let i = 0; i < keys.length - 1; i++) {
         current = current[keys[i]] = { ...current[keys[i]] };
       }
-      
+
       current[keys[keys.length - 1]] = value;
       return updated;
     });
@@ -148,7 +165,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
   const renderBasicTab = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Headline *</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Headline *
+        </label>
         <input
           type="text"
           value={formData.title}
@@ -159,7 +178,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Slug *</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Slug *
+        </label>
         <input
           type="text"
           value={formData.slug}
@@ -170,7 +191,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Summary</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Summary
+        </label>
         <textarea
           value={formData.summary}
           onChange={(e) => updateField("summary", e.target.value)}
@@ -182,27 +205,35 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category
+          </label>
           <select
             value={formData.category}
             onChange={(e) => updateField("category", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           >
-            {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Priority
+          </label>
           <select
             value={formData.priority}
             onChange={(e) => updateField("priority", e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           >
-            {priorities.map(priority => (
-              <option key={priority} value={priority}>{priority}</option>
+            {priorities.map((priority) => (
+              <option key={priority} value={priority}>
+                {priority}
+              </option>
             ))}
           </select>
         </div>
@@ -210,7 +241,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Reporter</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Reporter
+          </label>
           <input
             type="text"
             value={formData.reporter}
@@ -221,7 +254,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Location
+          </label>
           <input
             type="text"
             value={formData.location}
@@ -233,11 +268,18 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Tags (comma-separated)</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Tags (comma-separated)
+        </label>
         <input
           type="text"
           value={formData.tags.join(", ")}
-          onChange={(e) => updateField("tags", e.target.value.split(",").map(tag => tag.trim()))}
+          onChange={(e) =>
+            updateField(
+              "tags",
+              e.target.value.split(",").map((tag) => tag.trim())
+            )
+          }
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           placeholder="Artificial Intelligence, Journalism, Automation"
         />
@@ -248,7 +290,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
   const renderContentTab = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Content
+        </label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -257,13 +301,16 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
           placeholder="Write your news article content here..."
         />
         <div className="mt-2 text-sm text-gray-500">
-          Word count: {content.split(/\s+/).filter(word => word.length > 0).length}
+          Word count:{" "}
+          {content.split(/\s+/).filter((word) => word.length > 0).length}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Featured Image URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Featured Image URL
+          </label>
           <input
             type="url"
             value={formData.featuredImage}
@@ -272,7 +319,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Image Alt Text</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Image Alt Text
+          </label>
           <input
             type="text"
             value={formData.featuredImageAlt}
@@ -284,7 +333,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
       {formData.featuredImage && (
         <div className="bg-gray-50 p-4 rounded-lg">
-          <p className="text-sm font-medium text-gray-700 mb-2">Featured Image Preview:</p>
+          <p className="text-sm font-medium text-gray-700 mb-2">
+            Featured Image Preview:
+          </p>
           <img
             src={formData.featuredImage}
             alt="Preview"
@@ -298,7 +349,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
   const renderMediaTab = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Add Media URL</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Add Media URL
+        </label>
         <div className="flex space-x-2">
           <input
             type="url"
@@ -323,17 +376,22 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
         </label>
         <div className="space-y-2 max-h-60 overflow-y-auto">
           {mediaGallery.map((url, index) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+            <div
+              key={index}
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
+            >
               <div className="flex items-center space-x-3 flex-1 min-w-0">
                 <img
                   src={url}
                   alt={`Media ${index + 1}`}
                   className="w-12 h-12 object-cover rounded border"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
-                <span className="text-sm text-gray-600 truncate flex-1">{url}</span>
+                <span className="text-sm text-gray-600 truncate flex-1">
+                  {url}
+                </span>
               </div>
               <button
                 type="button"
@@ -357,7 +415,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
   const renderSEOTab = () => (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Meta Title
+        </label>
         <input
           type="text"
           value={formData.seoMeta.metaTitle}
@@ -367,37 +427,54 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Meta Description
+        </label>
         <textarea
           value={formData.seoMeta.metaDescription}
-          onChange={(e) => updateField("seoMeta.metaDescription", e.target.value)}
+          onChange={(e) =>
+            updateField("seoMeta.metaDescription", e.target.value)
+          }
           rows={3}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Meta Keywords (comma-separated)</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Meta Keywords (comma-separated)
+        </label>
         <input
           type="text"
           value={formData.seoMeta.metaKeywords.join(", ")}
-          onChange={(e) => updateField("seoMeta.metaKeywords", e.target.value.split(",").map(k => k.trim()))}
+          onChange={(e) =>
+            updateField(
+              "seoMeta.metaKeywords",
+              e.target.value.split(",").map((k) => k.trim())
+            )
+          }
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Canonical URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Canonical URL
+          </label>
           <input
             type="url"
             value={formData.seoMeta.canonicalUrl}
-            onChange={(e) => updateField("seoMeta.canonicalUrl", e.target.value)}
+            onChange={(e) =>
+              updateField("seoMeta.canonicalUrl", e.target.value)
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">OG Image URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            OG Image URL
+          </label>
           <input
             type="url"
             value={formData.seoMeta.ogImage}
@@ -434,7 +511,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Status
+        </label>
         <select
           value={formData.status}
           onChange={(e) => updateField("status", e.target.value)}
@@ -449,21 +528,29 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Publish Date</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Publish Date
+          </label>
           <input
             type="datetime-local"
             value={formData.publishedAt.slice(0, 16)}
-            onChange={(e) => updateField("publishedAt", new Date(e.target.value).toISOString())}
+            onChange={(e) =>
+              updateField("publishedAt", new Date(e.target.value).toISOString())
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Expiry Date
+          </label>
           <input
             type="datetime-local"
             value={formData.expiresAt.slice(0, 16)}
-            onChange={(e) => updateField("expiresAt", new Date(e.target.value).toISOString())}
+            onChange={(e) =>
+              updateField("expiresAt", new Date(e.target.value).toISOString())
+            }
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
           />
         </div>
@@ -471,7 +558,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Source</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Source
+          </label>
           <input
             type="text"
             value={formData.source}
@@ -480,7 +569,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Source URL</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Source URL
+          </label>
           <input
             type="url"
             value={formData.sourceUrl}
@@ -494,12 +585,18 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "basic": return renderBasicTab();
-      case "content": return renderContentTab();
-      case "media": return renderMediaTab();
-      case "seo": return renderSEOTab();
-      case "settings": return renderSettingsTab();
-      default: return renderBasicTab();
+      case "basic":
+        return renderBasicTab();
+      case "content":
+        return renderContentTab();
+      case "media":
+        return renderMediaTab();
+      case "seo":
+        return renderSEOTab();
+      case "settings":
+        return renderSettingsTab();
+      default:
+        return renderBasicTab();
     }
   };
 
@@ -512,7 +609,9 @@ export default function NewsArticleForm({ article, onClose, onSuccess }: NewsArt
             <h2 className="text-2xl font-bold text-gray-900">
               {article ? "Edit News Article" : "Create News Article"}
             </h2>
-            <p className="text-gray-600">Manage breaking news and real-time content</p>
+            <p className="text-gray-600">
+              Manage breaking news and real-time content
+            </p>
           </div>
           <button
             onClick={onClose}

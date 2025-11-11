@@ -47,20 +47,20 @@ export default function CMSDashboard() {
       count: 5,
       description: "News updates and announcements"
     },
-    { 
-      name: "Media Library", 
-      href: "/media", 
-      icon: "🖼️",
-      count: 47,
-      description: "Images, videos and documents"
-    },
-    { 
-      name: "Analytics", 
-      href: "/analytics", 
-      icon: "📊",
-      count: null,
-      description: "Performance metrics and reports"
-    },
+    // { 
+    //   name: "Media Library", 
+    //   href: "/media", 
+    //   icon: "🖼️",
+    //   count: 47,
+    //   description: "Images, videos and documents"
+    // },
+    // { 
+    //   name: "Analytics", 
+    //   href: "/analytics", 
+    //   icon: "📊",
+    //   count: null,
+    //   description: "Performance metrics and reports"
+    // },
   ];
 
   const quickActions = [
@@ -150,7 +150,7 @@ export default function CMSDashboard() {
             <h2 className="text-xl font-semibold text-gray-900 mb-6">Content Management</h2>
             
             {/* Quick Actions */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            {/* <div className="grid grid-cols-2 gap-4 mb-8">
               {quickActions.map((action, index) => (
                 <Link key={index} href={action.action}>
                   <div className="bg-white rounded-lg border p-4 hover:shadow-md transition-shadow cursor-pointer">
@@ -161,7 +161,7 @@ export default function CMSDashboard() {
                   </div>
                 </Link>
               ))}
-            </div>
+            </div> */}
 
             {/* Content Types Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

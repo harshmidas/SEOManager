@@ -8,11 +8,12 @@ import PressStats from "@/components/PressStats";
 import DistributionChart from "@/components/DistributionChart";
 import PressReleaseForm from "@/components/PressReleaseForm";
 
-const API_URL = "http://192.168.1.42:9291/api/v1/seo-press";
+const API_URL = "http://157.20.214.84:9292/api/v1/seo-press";
 const HEADERS = {
-  "X-Tenant": "68cc764fbfc57730593b4a32",
+  "X-Tenant": "68b20dd0fb42964f2328b424",
   "X-User-ID": "658dfb086764754f1fa564d0",
-  "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcmNoaXQubWlzaHJhQG1pZGFzY29uc3VsdGluZy5vcmciLCJpYXQiOjE3NjI4MDQ3NTgsImV4cCI6MTc2Mjg5MTE1OH0.6_JIYgzh7sdM0Z1SFVclmwSrGIxX0Pe0coOU1CueBkTJavneEWKbBcmbYf3qwxYPh__TP9g4XyUjlqB7nojIrw"
+  Authorization:
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcmNoaXQubWlzaHJhQG1pZGFzY29uc3VsdGluZy5vcmciLCJpYXQiOjE3NjI4MDQ3NTgsImV4cCI6MTc2Mjg5MTE1OH0.6_JIYgzh7sdM0Z1SFVclmwSrGIxX0Pe0coOU1CueBkTJavneEWKbBcmbYf3qwxYPh__TP9g4XyUjlqB7nojIrw",
 };
 
 export default function SeoPressPage() {
@@ -20,18 +21,28 @@ export default function SeoPressPage() {
   const [filteredReleases, setFilteredReleases] = useState<PressRelease[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [selectedRelease, setSelectedRelease] = useState<PressRelease | null>(null);
+  const [selectedRelease, setSelectedRelease] = useState<PressRelease | null>(
+    null
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
 
-  const categories = ["Technology", "Healthcare", "Finance", "Announcement", "Partnership"];
+  const categories = [
+    "Technology",
+    "Healthcare",
+    "Finance",
+    "Announcement",
+    "Partnership",
+  ];
   const statuses = ["PUBLISHED", "DRAFT", "SCHEDULED", "ARCHIVED"];
 
   const loadPressReleases = async () => {
     try {
       setLoading(true);
-      const data = await apiFetch<PressRelease[]>(API_URL, { headers: HEADERS });
+      const data = await apiFetch<PressRelease[]>(API_URL, {
+        headers: HEADERS,
+      });
       setPressReleases(data || []);
       setFilteredReleases(data || []);
     } catch (error) {
@@ -49,19 +60,24 @@ export default function SeoPressPage() {
     let filtered = pressReleases;
 
     if (searchTerm) {
-      filtered = filtered.filter(release =>
-        release.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        release.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        release.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      filtered = filtered.filter(
+        (release) =>
+          release.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          release.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          release.tags.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          )
       );
     }
 
     if (statusFilter !== "all") {
-      filtered = filtered.filter(release => release.status === statusFilter);
+      filtered = filtered.filter((release) => release.status === statusFilter);
     }
 
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(release => release.category === categoryFilter);
+      filtered = filtered.filter(
+        (release) => release.category === categoryFilter
+      );
     }
 
     setFilteredReleases(filtered);
@@ -83,9 +99,17 @@ export default function SeoPressPage() {
     loadPressReleases();
   };
 
-  const totalViews = pressReleases.reduce((sum, release) => sum + release.viewCount, 0);
-  const totalShares = pressReleases.reduce((sum, release) => sum + release.shareCount, 0);
-  const publishedCount = pressReleases.filter(release => release.published).length;
+  const totalViews = pressReleases.reduce(
+    (sum, release) => sum + release.viewCount,
+    0
+  );
+  const totalShares = pressReleases.reduce(
+    (sum, release) => sum + release.shareCount,
+    0
+  );
+  const publishedCount = pressReleases.filter(
+    (release) => release.published
+  ).length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -94,8 +118,12 @@ export default function SeoPressPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Press Releases</h1>
-              <p className="text-gray-600 mt-2">Manage your press releases and media distribution</p>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Press Releases
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Manage your press releases and media distribution
+              </p>
             </div>
             <button
               onClick={handleCreate}
@@ -137,8 +165,10 @@ export default function SeoPressPage() {
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Status</option>
-              {statuses.map(status => (
-                <option key={status} value={status}>{status}</option>
+              {statuses.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
               ))}
             </select>
             <select
@@ -147,8 +177,10 @@ export default function SeoPressPage() {
               className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Categories</option>
-              {categories.map(category => (
-                <option key={category} value={category}>{category}</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
               ))}
             </select>
           </div>
@@ -170,10 +202,12 @@ export default function SeoPressPage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📰</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No press releases found</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No press releases found
+              </h3>
               <p className="text-gray-600 mb-6">
-                {pressReleases.length === 0 
-                  ? "Get started by creating your first press release" 
+                {pressReleases.length === 0
+                  ? "Get started by creating your first press release"
                   : "No releases match your current filters"}
               </p>
               <button
