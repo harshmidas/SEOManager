@@ -11,6 +11,20 @@ export interface SEOConfig {
   indexable: boolean;
   canonicalUrl: string;
 }
+export interface SEOArticleMeta {
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string[];
+  canonicalUrl: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  twitterCard: "summary" | "summary_large_image" | "app" | "player";
+  noIndex: boolean;
+  noFollow: boolean;
+  structuredData: Record<string, any>;
+}
+
 
 export interface BrandingConfig {
   logo: string;
@@ -135,7 +149,7 @@ export interface SEOArticle {
   featured: boolean;
   published: boolean;
   publishedAt: string;
-  articleType: "TUTORIAL" | "GUIDE" | "BLOG" | "NEWS" | "REVIEW";
+  articleType: "TUTORIAL" | "GUIDE" | "BLOG" | "NEWS" | "REVIEW" | "RESEARCH";
   difficultyLevel: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
   seoMeta: SEOArticleMeta;
   viewCount: number;
