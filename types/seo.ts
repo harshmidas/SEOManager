@@ -85,3 +85,70 @@ export interface SEOWebsite {
   createdBy: string;
   updatedBy: string;
 }
+
+// Add these interfaces to your existing seo.ts file
+
+export interface TableOfContentsItem {
+  id: string;
+  title: string;
+  level: number;
+  anchor: string;
+}
+
+export interface Reference {
+  title: string;
+  url: string;
+  author: string;
+  accessedDate: string;
+  type: string;
+}
+
+export interface SEOArticleMeta {
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string[];
+  canonicalUrl: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  ogType: string;
+  noIndex: boolean;
+  structuredData: Record<string, any>;
+}
+
+export interface SEOArticle {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  summary: string;
+  featuredImage: string;
+  featuredImageAlt: string;
+  galleryImages: string[];
+  author: string;
+  authorBio: string;
+  authorAvatar: string;
+  authorLinkedIn: string;
+  category: string;
+  subCategory: string;
+  tags: string[];
+  featured: boolean;
+  published: boolean;
+  publishedAt: string;
+  articleType: "TUTORIAL" | "GUIDE" | "BLOG" | "NEWS" | "REVIEW";
+  difficultyLevel: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  seoMeta: SEOArticleMeta;
+  viewCount: number;
+  shareCount: number;
+  bookmarkCount: number;
+  readingTimeMinutes: number;
+  tableOfContents: TableOfContentsItem[];
+  references: Reference[];
+  relatedArticleIds: string[];
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  updatedBy: string;
+  metadata: Record<string, any>;
+}

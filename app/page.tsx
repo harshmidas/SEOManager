@@ -47,13 +47,13 @@ export default function CMSDashboard() {
       count: 5,
       description: "News updates and announcements"
     },
-    // { 
-    //   name: "Media Library", 
-    //   href: "/media", 
-    //   icon: "🖼️",
-    //   count: 47,
-    //   description: "Images, videos and documents"
-    // },
+    { 
+      name: "SEO Article", 
+      href: "/seo-article", 
+      icon: "🖼️",
+      count: 47,
+      description: "Images, videos and documents"
+    },
     // { 
     //   name: "Analytics", 
     //   href: "/analytics", 
